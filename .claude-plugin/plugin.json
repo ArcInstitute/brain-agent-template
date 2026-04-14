@@ -1,0 +1,9 @@
+{
+  "name": "brain-agent",
+  "description": "Create and manage autonomous self-evolving Claude Code brain agents",
+  "version": "1.0.0",
+  "skills": [
+    "./skills/new-brain-agent",
+    "./skills/brain-manage"
+  ]
+}

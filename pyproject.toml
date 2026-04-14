@@ -1,0 +1,9 @@
+[project]
+name = "brain-agent"
+version = "0.1.0"
+description = "Brain agent dependencies"
+requires-python = ">=3.11"
+dependencies = [
+    "requests",
+    "pytz",
+]
