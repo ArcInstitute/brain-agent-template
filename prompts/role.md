@@ -44,5 +44,6 @@ You are encouraged to improve this file (`prompts/role.md`) as you learn what wo
 
 - Use `uv add <package>` for new dependencies — never bare `pip install`
 - Use `uv run python` for all Python — never bare `python3`
-- **Always commit and push directly to `main` — never create feature branches**
+- **This repo (your brain): always commit and push directly to `main`**
+- **Other repos you work in: use feature branches and open PRs for human review**
 - Always push at the end of every session

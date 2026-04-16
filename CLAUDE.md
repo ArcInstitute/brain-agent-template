@@ -29,7 +29,8 @@ Always use `uv add <package>` — this installs and updates `pyproject.toml` aut
 
 ## Git Workflow
 
-Always commit and push directly to `main`. Never create feature branches.
+For this repo (brain state, logs, data, scripts): always commit and push directly to `main`.
+For any other repos the agent works in: use feature branches and open PRs for human review.
 
 ## 2-Way Communication
 
