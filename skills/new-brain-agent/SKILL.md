@@ -40,7 +40,7 @@ Ask the user (use AskUserQuestion):
 
 ```bash
 # Create from template
-gh repo create <name>-brain --template sullivanj91/brain-agent-template --public  # or --private
+gh repo create <name>-brain --template ArcInstitute/brain-agent-template --public  # or --private
 
 # Clone locally
 git clone https://github.com/<owner>/<name>-brain /tmp/<name>-brain
