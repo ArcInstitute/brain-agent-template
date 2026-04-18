@@ -93,6 +93,8 @@ Fill in `prompts/role.md` — replace placeholders:
 
 ```bash
 cd /tmp/<name>-brain
+# Remove template-only skills not needed in downstream brain repos
+rm -rf skills/new-brain-agent
 git add -A
 git commit -m "init: scaffold from brain-agent-template"
 git push origin main

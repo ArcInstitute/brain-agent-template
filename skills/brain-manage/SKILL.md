@@ -114,13 +114,13 @@ Ask the user to confirm before continuing.
 
 ```bash
 git fetch --depth 1 https://github.com/ArcInstitute/brain-agent-template.git refs/tags/<target-tag>
-git checkout FETCH_HEAD -- skills/ .claude-plugin/ inbox/README.md inbox/example/README.md .brain-agent-version
+git checkout FETCH_HEAD -- skills/brain-manage/ .claude-plugin/ inbox/README.md inbox/example/README.md .brain-agent-version
 git diff --staged --stat
 git commit -m "chore: upgrade brain-agent framework to <target-tag>"
 git push
 ```
 
-**Files upgraded** (framework-owned): `skills/`, `.claude-plugin/`, `inbox/README.md`, `inbox/example/README.md`, `.brain-agent-version`
+**Files upgraded** (framework-owned): `skills/brain-manage/`, `.claude-plugin/`, `inbox/README.md`, `inbox/example/README.md`, `.brain-agent-version`
 
 **Files preserved** (agent-owned): `prompts/role.md`, `CLAUDE.md`, `pyproject.toml`, `data/`, `logs/`, `scripts/`, `inbox/<username>/*.md`
 
