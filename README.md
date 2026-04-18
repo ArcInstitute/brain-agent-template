@@ -84,6 +84,16 @@ logs/alice/evolution/         logs/bob/evolution/
 
 To add a user, use the `/brain-manage` skill's **Add a User** workflow.
 
+## Adding Users
+
+To give another person their own isolated namespace in this brain, open this repo in Claude Code and run:
+
+```
+/brain-manage add user
+```
+
+It will ask for their GitHub username, create their `inbox/<username>/`, `data/<username>/`, and `logs/<username>/evolution/` directories, commit them, and create a new CCR scheduled trigger with `BRAIN_USER=<username>` wired up automatically.
+
 ## Skills (auto-loaded when this repo is open in Claude Code)
 
 | Skill | Description |

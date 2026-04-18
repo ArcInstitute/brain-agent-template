@@ -23,13 +23,7 @@ To send a directive proactively, create a GitHub Issue labeled `directive`. The 
 
 ## Adding a New User
 
-1. Create their directories:
-   ```bash
-   mkdir -p inbox/<username> data/<username> logs/<username>/evolution
-   touch inbox/<username>/.gitkeep data/<username>/.gitkeep logs/<username>/evolution/.gitkeep
-   git add . && git commit -m "feat: add user <username>" && git push
-   ```
-2. Create a new CCR trigger with `BRAIN_USER=<username>` in the environment variables.
+Open this repo in Claude Code and run `/brain-manage add user` — it will create the user's directories, commit them, and wire up a new CCR trigger automatically.
 
 ## Backward Compatibility
 

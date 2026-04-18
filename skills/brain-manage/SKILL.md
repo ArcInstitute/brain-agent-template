@@ -4,7 +4,7 @@ description: |
   Manage an autonomous Brain Agent — check status, review recent activity, respond to
   agent requests, send directives, and update the agent's prompt. Works on any brain
   agent repo that follows the Brain Agent pattern.
-  Triggers on: brain manage, agent status, check agent, respond to agent, agent request, brain status, update agent prompt.
+  Triggers on: brain manage, agent status, check agent, respond to agent, agent request, brain status, update agent prompt, add user, new user, onboard user.
 ---
 
 # Brain Manage
@@ -99,10 +99,18 @@ For skill-only updates (no repo changes needed), run `/plugin marketplace update
 
 ### Add a User
 
-Each user needs their own inbox/data/logs directories and a separate CCR trigger:
+Guided workflow to add a new user namespace and wire up their CCR trigger.
+
+#### Step 1 — Gather inputs (AskUserQuestion)
+- GitHub username to add
+- CCR environment to use (load RemoteTrigger via ToolSearch and list environments, or ask user)
+- Model (default `claude-sonnet-4-6`)
+
+#### Step 2 — Create directories and commit
+
+Read `prompts/role.md` to get the agent name and repo URL. Then:
 
 ```bash
-# 1. Create user-scoped directories
 mkdir -p inbox/<username> data/<username> logs/<username>/evolution
 touch inbox/<username>/.gitkeep data/<username>/.gitkeep logs/<username>/evolution/.gitkeep
 cp inbox/example/README.md inbox/<username>/README.md
@@ -112,7 +120,47 @@ cp logs/example/evolution/changes.md logs/<username>/evolution/changes.md
 git add . && git commit -m "feat: add user <username>" && git push
 ```
 
-2. Create a new CCR trigger at claude.ai/code/scheduled pointing at this repo, with `BRAIN_USER=<username>` in the environment variables.
+#### Step 3 — Create the CCR trigger
+
+Load RemoteTrigger via ToolSearch, then create a new trigger. Use the same schedule, model, and repo URL as the primary trigger (read from `prompts/role.md`):
+
+```json
+{
+  "action": "create",
+  "body": {
+    "name": "<AgentName> Agent — <username>",
+    "cron_expression": "<same UTC cron as primary trigger>",
+    "enabled": true,
+    "job_config": {
+      "ccr": {
+        "environment_id": "<environment_id>",
+        "session_context": {
+          "model": "<model>",
+          "sources": [{"git_repository": {"url": "<repo-url>"}}],
+          "env": {"BRAIN_USER": "<username>"},
+          "allowed_tools": ["Bash", "Read", "Write", "Edit", "Glob", "Grep", "WebSearch", "WebFetch"]
+        },
+        "events": [{
+          "data": {
+            "uuid": "<generate lowercase v4 uuid>",
+            "session_id": "",
+            "type": "user",
+            "parent_tool_use_id": null,
+            "message": {
+              "role": "user",
+              "content": "## Setup\n```bash\ncd /home/user && pip install uv -q && cd <repo-name> && uv sync\n```\n\nYour full instructions are in `prompts/role.md` — read that file and follow it exactly."
+            }
+          }
+        }]
+      }
+    }
+  }
+}
+```
+
+#### Step 4 — Output
+- Trigger URL: `https://claude.ai/code/scheduled/<trigger_id>`
+- Recommend: "Run the trigger manually ('Run now') to seed the initial state before the first scheduled run."
 
 ## Common Workflows
 
@@ -123,7 +171,7 @@ git add . && git commit -m "feat: add user <username>" && git push
 
 **"I want to change the agent's strategy"**
 1. Edit `prompts/role.md` with your changes
-2. Optionally add a note to `inbox/owner/reason.md` explaining the change
+2. Optionally add a note to `inbox/<username>/reason.md` explaining the change
 3. Commit + push — takes effect next session
 
 **"The agent seems stuck / made a bad decision"**
